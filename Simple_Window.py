@@ -5,7 +5,7 @@ class App:
     def __init__(self):
         self._running = True
         self._display_surf = None
-        self.size = self.weight, self.height = 640, 400
+        self.size = self.weight, self.height = 1000, 1000
  
     def on_init(self):
         pygame.init()
