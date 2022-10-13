@@ -1,4 +1,0 @@
-Dylan,1000
-Peyton,5
-Nov,9999
-Katie,6
