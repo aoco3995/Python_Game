@@ -54,7 +54,7 @@ class ScoreDB:
 
             
 
-def main():
+def test():
     score1 = ScoreDB("test.txt")
     score2 = ScoreDB("highscores.txt")
 
@@ -70,4 +70,4 @@ def main():
     score1.file.close()
     score2.file.close()
 
-main()
+#test()
