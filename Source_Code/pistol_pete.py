@@ -10,6 +10,7 @@ class pistol_pete(entity):
         self.screen_size = screen_size
         self.ready = True
         self.screen = screen
+        
 
         self.bullet = pygame.sprite.Group()
 
@@ -19,10 +20,10 @@ class pistol_pete(entity):
 
     def get_input(self):
         keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_d]:
+        self.mouse_crt_x , self.mouse_crt_y = pygame.mouse.get_pos()
+        if self.mouse_crt_x >= self.rect.x + 50:#keys[pygame.K_d]:
             self.rect.x += self.velocity
-        elif keys[pygame.K_a]:
+        elif self.mouse_crt_x <= self.rect.x - 50:#keys[pygame.K_a]:
             self.rect.x -= self.velocity
 
         if keys[pygame.K_SPACE] and self.ready:

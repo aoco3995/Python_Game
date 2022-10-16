@@ -10,13 +10,13 @@ class running_back(entity):
     def get_input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_d]:
             self.rect.x += self.velocity
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_a]:
             self.rect.x -= self.velocity
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_w]:
             self.rect.y -= self.velocity
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_s]:
             self.rect.y += self.velocity
 
     def constraint(self):
