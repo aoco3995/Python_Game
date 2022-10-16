@@ -36,7 +36,7 @@ class Game:
         self.bullet_group = pygame.sprite.Group()
 
         #init running back
-        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),2, (self.screen.get_height(),self.screen.get_width()))
+        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),4, (self.screen.get_height(),self.screen.get_width()))
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
@@ -60,7 +60,7 @@ class Game:
 
     def spawn_defender(self):
         #init defenders
-        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), 0.5+random()*2))
+        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3)))
         defender1.append(pygame.sprite.GroupSingle(defender1_sprite[-1]))
         self.defender_group = pygame.sprite.Group()
         global last_defender_time
@@ -183,7 +183,7 @@ class Game:
             sys.exit()
 
         pygame.display.flip()
-        self.clock.tick(60)
+        self.clock.tick(30)
 
         #handle exiting
         for event in pygame.event.get():
