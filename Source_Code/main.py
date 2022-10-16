@@ -60,7 +60,7 @@ class Game:
 
     def spawn_defender(self):
         #init defenders
-        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), 1))
+        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), 0.5+random()*2))
         defender1.append(pygame.sprite.GroupSingle(defender1_sprite[-1]))
         self.defender_group = pygame.sprite.Group()
         global last_defender_time
