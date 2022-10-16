@@ -99,7 +99,6 @@ class Game:
                     self.defender_group.remove(self.defender_group)
 
     def run(self):
-
         # clear screen
         self.screen.fill((30,30,30))
 
@@ -270,15 +269,15 @@ class Game:
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 + (self.menu_font.get_height()*2))
             self.screen.blit(text,textpos)
 
-            text = self.menu_font.render("Press Q to Quit", True, (255,100,10))
+            text = self.menu_font.render("Press B to go back to Main Menu", True, (255,100,10))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()*(3/4) + (self.menu_font.get_height()*2))
             self.screen.blit(text,textpos)
 
             # get input to go back to menu
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_q]:
-                pygame.quit()
-                self.state = "main_menu"
+            if keys[pygame.K_b]:
+                self.game_music.stop()
+                return True
 
         elif self.state == "quit":
             #quit the game
@@ -294,11 +293,15 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        
+        return False
 
 
 if __name__ == '__main__':
-    game = Game((600,912))
-
-    while True:
-        game.run()
-    
+   
+   while True:
+        game = Game((600,912))
+        new_game = False
+        while new_game == False:
+            new_game = game.run()
+        
