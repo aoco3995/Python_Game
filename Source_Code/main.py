@@ -42,7 +42,9 @@ class Game:
         #init score database
         self.scoreDB = ScoreDB()
 
-        self.spawn_defender()
+        #self.spawn_defender()
+        self.defender_group = pygame.sprite.Group()
+        self.last_defender_time = time.time()
 
         #init music
         self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.wav')
@@ -59,14 +61,9 @@ class Game:
             self.menu_font = pygame.font.Font(None, 50)
 
     def spawn_defender(self):
-        #init defenders
-        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3)))
-        defender1.append(pygame.sprite.GroupSingle(defender1_sprite[-1]))
-        self.defender_group = pygame.sprite.Group()
-        global last_defender_time
-        last_defender_time = time.time()
-        #self.defender_group.add(self.defender1)
-        #self.init_defenders()
+        self.last_defender_time = time.time()
+        defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3))
+        self.defender_group.add(defend)
 
     def set_score(self, score):
         return
@@ -146,26 +143,28 @@ class Game:
 
         elif self.state == "running":
             #play the game
-            print(last_defender_time)
-            if (time.time() - last_defender_time) > 1:
-                game.spawn_defender()
 
             if not self.music_playing:
                 self.game_music.play(loops = -1)
                 self.music_playing = True
 
-            print("running")
+            #print("running")
+
             self.background.draw(self.screen)
+
             self.running_back.update()
             self.running_back.draw(self.screen)
+
             self.player.update()
             self.player.draw(self.screen)
-            print(self.running_back_sprite.get_object_rect())
-            for d in defender1:
-                d.update(self.running_back_sprite)
-                d.draw(self.screen)
-            #self.defender1.update(self.running_back_sprite)
-            #self.defender1.draw(self.screen)
+
+            #print(self.running_back_sprite.get_object_rect())
+
+            if (time.time() - self.last_defender_time) > 1:
+                game.spawn_defender()
+            self.defender_group.update(self.running_back_sprite)
+            self.defender_group.draw(self.screen)
+
         elif self.state == "pause":
             # play menu music
             self.menu_music.play(loops=-1)
