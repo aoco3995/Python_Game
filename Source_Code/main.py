@@ -1,6 +1,6 @@
 import pygame, sys
 #from bullet import bullet
-#from defender_1 import defender1
+from defender_1 import defender
 from entity import entity
 from running_back import running_back
 #from laser import Laser
@@ -26,12 +26,14 @@ class Game:
         self.bullet_group = pygame.sprite.Group()
 
         #init defenders
+        defender1_sprite = defender("..\\Graphics\\defender_1_small.png", (screensize[0]/2, screensize[1]/10), 1)
+        self.defender1 = pygame.sprite.GroupSingle(defender1_sprite)
         self.defender_group = pygame.sprite.Group()
         #self.init_defenders()
 
         #init running back
-        running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),5)
-        self.running_back = pygame.sprite.GroupSingle(running_back_sprite)
+        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),2)
+        self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
         self.scoreDB = ScoreDB()
@@ -114,6 +116,9 @@ class Game:
             print("running")
             self.running_back.update()
             self.running_back.draw(self.screen)
+            print(self.running_back_sprite.get_object_rect())
+            self.defender1.update(self.running_back_sprite)
+            self.defender1.draw(self.screen)
         elif self.state == "pause":
             #display pause menu
             print("pause")
