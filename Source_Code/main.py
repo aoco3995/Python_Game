@@ -40,10 +40,10 @@ class Game:
         self.spawn_defender()
 
         #init music
-        self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.mp3')
+        self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.wav')
         self.game_music.set_volume(0.05)
 
-        self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.mp3')
+        self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.wav')
         self.menu_music.set_volume(0.05)
 
         #init font
