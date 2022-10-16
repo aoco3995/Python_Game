@@ -174,17 +174,6 @@ class Game:
 
             self.player.update()
             self.player.draw(self.screen)
-<<<<<<< HEAD
-            print(self.running_back_sprite.get_object_rect())
-            for d in defender1:
-                d.update(self.running_back_sprite)
-                d.draw(self.screen)
-            #self.defender1.update(self.running_back_sprite)
-            #self.defender1.draw(self.screen)
-
-            #check for collision
-            self.collision_checks()
-=======
 
             #print(self.running_back_sprite.get_object_rect())
 
@@ -193,7 +182,6 @@ class Game:
             self.defender_group.update(self.running_back_sprite)
             self.defender_group.draw(self.screen)
 
->>>>>>> 718ce70591dfadbf09cc2322bcc2c2e3350eed34
         elif self.state == "pause":
             # play menu music
             self.menu_music.play(loops=-1)
