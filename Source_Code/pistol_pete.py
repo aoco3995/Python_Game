@@ -11,6 +11,10 @@ class pistol_pete(entity):
 
         self.bullet = pygame.sprite.Group()
 
+        self.laser_sound = pygame.mixer.Sound('Audio\pistol.wav')
+        self.laser_sound.set_volume(0.5)
+
+
     def get_input(self):
         keys = pygame.key.get_pressed()
 
@@ -23,7 +27,7 @@ class pistol_pete(entity):
             self.fire_bullet()
             self.ready = False
             self.bullet_rpm = pygame.time.get_ticks()
-            # self.bullet_sound.play() #no sound file yet
+            self.bullet_sound.play() #no sound file yet
 
     def firerate(self):
         if not self.ready:
