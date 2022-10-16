@@ -8,3 +8,5 @@ class entity(pygame.sprite.Sprite):
 		self.pos = pos
 		self.velocity = velocity
 
+	def update(self,direction):
+		self.rect.x += direction

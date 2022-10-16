@@ -1,8 +1,8 @@
 import pygame, sys
 #from bullet import bullet
 #from defender_1 import defender1
-#from entity import entity
-#from running_back import running_back
+from entity import entity
+from running_back import running_back
 #from laser import Laser
 from ScoreDB import ScoreDB
 
@@ -30,16 +30,16 @@ class Game:
         #self.init_defenders()
 
         #init running back
-        #running_back_sprite = Running_Back((screensize[0]/2, screensize[1]/2))
-        #self.running_back = pygame.sprite.GroupSingle(running_back_sprite)
+        running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),5)
+        self.running_back = pygame.sprite.GroupSingle(running_back_sprite)
 
         #init score database
         self.scoreDB = ScoreDB()
 
         #init background music
-        music = pygame.mixer.Sound('../Audio/bg_music.wav')
-        music.set_volume(0.05)
-        music.play(loops = -1)
+        #music = pygame.mixer.Sound('../Audio/bg_music.wav')
+        #music.set_volume(0.05)
+        #music.play(loops = -1)
 
         #init font
         pygame.font.init()
@@ -113,6 +113,8 @@ class Game:
         elif self.state == "running":
             #play the game
             print("running")
+            self.running_back.update()
+            self.running_back.draw(self.screen)
         elif self.state == "pause":
             #display pause menu
             print("pause")
