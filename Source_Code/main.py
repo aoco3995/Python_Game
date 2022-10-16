@@ -21,6 +21,10 @@ class Game:
         self.screen = pygame.display.set_mode(screensize)
         self.clock = pygame.time.Clock()
 
+        #Background
+        self.background_sprite = entity("..\\Graphics\\background_football_field.jpg",(self.screen.get_width()/2,self.screen.get_height()/2),0)
+        self.background = pygame.sprite.GroupSingle(self.background_sprite)
+
         #init state and score
         self.state = "main_menu"
         self.current_score = 0
@@ -60,7 +64,7 @@ class Game:
 
     def spawn_defender(self):
         #init defenders
-        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), 1))
+        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,self.screen.get_width()), 1), 0.5+random()*2))
         defender1.append(pygame.sprite.GroupSingle(defender1_sprite[-1]))
         self.defender_group = pygame.sprite.Group()
         global last_defender_time
@@ -168,6 +172,7 @@ class Game:
                 self.music_playing = True
 
             print("running")
+            self.background.draw(self.screen)
             self.running_back.update()
             self.running_back.draw(self.screen)
             self.player.update()
@@ -208,7 +213,7 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game((600,800))
+    game = Game((600,912))
 
     while True:
         game.run()
