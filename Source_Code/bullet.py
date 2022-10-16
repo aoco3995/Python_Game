@@ -12,4 +12,4 @@ class bullet(entity):
 
 	def update(self):
 		self.rect.y += self.velocity
-		self.destroy()		
+		#self.destroy()		

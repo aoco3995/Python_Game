@@ -10,12 +10,6 @@ class running_back(entity):
             self.rect.x += self.velocity
         elif keys[pygame.K_LEFT]:
             self.rect.x -= self.velocity
-
-        if keys[pygame.K_SPACE] and self.ready:
-            self.shoot_laser()
-            self.ready = False
-            self.laser_time = pygame.time.get_ticks()
-            self.laser_sound.play()
     
     def update(self):
         self.get_input()

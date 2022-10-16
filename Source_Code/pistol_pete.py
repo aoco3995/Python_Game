@@ -3,11 +3,13 @@ from entity import entity
 from bullet import bullet
 
 class pistol_pete(entity):
-    def __init__(self, sprite_path, pos, velocity, screen_size):
+    def __init__(self, sprite_path, pos, velocity, screen_size, screen):
         super().__init__(sprite_path, pos, velocity)
         self.bullet_time = 0
         self.bullet_rpm = 600
         self.screen_size = screen_size
+        self.ready = True
+        self.screen = screen
 
         self.bullet = pygame.sprite.Group()
 
@@ -32,7 +34,7 @@ class pistol_pete(entity):
                 self.ready = True
 
     def fire_bullet(self):
-        self.bullet.add(bullet('sprite_path',self.rect.center,-8,self.screen_size))
+        self.bullet.add(bullet('..\\Graphics\\bullet.png',self.rect.center,-8,self.screen_size))
 
     def constraint(self):
         if self.rect.left <= 0:
@@ -46,3 +48,4 @@ class pistol_pete(entity):
         self.constraint()
         self.firerate()
         self.bullet.update()
+        self.bullet.draw(self.screen)
