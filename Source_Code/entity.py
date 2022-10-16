@@ -10,3 +10,6 @@ class entity(pygame.sprite.Sprite):
 
 	def update(self,direction):
 		self.rect.x += direction
+
+	def get_object_rect(self):
+		return self.rect
