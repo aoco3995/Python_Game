@@ -47,6 +47,8 @@ class Game:
         self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.wav')
         self.menu_music.set_volume(0.05)
 
+        self.music_playing = False
+
         #init font
         pygame.font.init()
         if pygame.font:
@@ -78,7 +80,9 @@ class Game:
             # display main menu
 
             # play menu music
-            self.menu_music.play(loops=-1)
+            if not self.music_playing:
+                self.menu_music.play(loops=-1)
+                self.music_playing = True
 
             # display game title
             text = self.menu_font.render("Run And Gun", True, (255,100,10))
@@ -97,6 +101,7 @@ class Game:
             # get user input to change state
             keys = pygame.key.get_pressed()
             if keys[pygame.K_p]:
+                self.music_playing = False
                 self.menu_music.stop()
                 self.state = "running"
             elif keys[pygame.K_v]:
@@ -141,7 +146,9 @@ class Game:
             if (time.time() - last_defender_time) > 1:
                 game.spawn_defender()
 
-            self.game_music.play(loops = -1)
+            if not self.music_playing:
+                self.game_music.play(loops = -1)
+                self.music_playing = True
 
             print("running")
             self.running_back.update()
