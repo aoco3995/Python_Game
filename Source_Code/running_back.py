@@ -1,3 +1,4 @@
+from turtle import screensize
 import pygame
 from entity import entity
 
@@ -23,6 +24,8 @@ class running_back(entity):
             self.rect.left = 0
         if self.rect.right >= self.screen_size[0] - 200:
             self.rect.right = self.screen_size[0] - 200
+        if self.rect.y < (1/10)*self.screen_size[0]:
+            self.rect.y = (9/10)*self.screen_size[0]
     
     def update(self):
         self.get_input()
