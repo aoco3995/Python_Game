@@ -7,7 +7,8 @@ class defender(entity):
     def update(self, running_back):
 
         self.rect.y += self.velocity
-        if running_back.get_object_rect().x > self.rect.x:
-            self.rect.x += self.velocity
-        else:
-            self.rect.x -= self.velocity
+        if running_back.get_object_rect().y > self.rect.y: 
+            if running_back.get_object_rect().x > self.rect.x:
+                self.rect.x += self.velocity
+            else:
+                self.rect.x -= self.velocity
