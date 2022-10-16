@@ -5,8 +5,13 @@ from entity import entity
 from running_back import running_back
 #from laser import Laser
 from ScoreDB import ScoreDB
+import time
+from random import *
 
+defender1_sprite = []
+defender1 = []
 class Game:
+
 
     def __init__(self,screensize):
         #init pygame and screen
@@ -25,18 +30,14 @@ class Game:
         #init bullets
         self.bullet_group = pygame.sprite.Group()
 
-        #init defenders
-        defender1_sprite = defender("..\\Graphics\\defender_1_small.png", (screensize[0]/2, screensize[1]/10), 1)
-        self.defender1 = pygame.sprite.GroupSingle(defender1_sprite)
-        self.defender_group = pygame.sprite.Group()
-        #self.init_defenders()
-
         #init running back
         self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),2)
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
         self.scoreDB = ScoreDB()
+
+        self.spawn_defender()
 
         #init background music
         #music = pygame.mixer.Sound('../Audio/bg_music.wav')
@@ -47,6 +48,16 @@ class Game:
         pygame.font.init()
         if pygame.font:
             self.menu_font = pygame.font.Font(None, 50)
+
+    def spawn_defender(self):
+        #init defenders
+        defender1_sprite.append(defender("..\\Graphics\\defender_1_small.png", (randint(1,600), 1), 1))
+        defender1.append(pygame.sprite.GroupSingle(defender1_sprite[-1]))
+        self.defender_group = pygame.sprite.Group()
+        global last_defender_time
+        last_defender_time = time.time()
+        #self.defender_group.add(self.defender1)
+        #self.init_defenders()
 
     def set_score(self, score):
         return
@@ -113,12 +124,18 @@ class Game:
 
         elif self.state == "running":
             #play the game
+            print(last_defender_time)
+            if (time.time() - last_defender_time) > 1:
+                game.spawn_defender()
             print("running")
             self.running_back.update()
             self.running_back.draw(self.screen)
             print(self.running_back_sprite.get_object_rect())
-            self.defender1.update(self.running_back_sprite)
-            self.defender1.draw(self.screen)
+            for d in defender1:
+                d.update(self.running_back_sprite)
+                d.draw(self.screen)
+            #self.defender1.update(self.running_back_sprite)
+            #self.defender1.draw(self.screen)
         elif self.state == "pause":
             #display pause menu
             print("pause")
