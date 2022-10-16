@@ -77,16 +77,11 @@ class Game:
         return
 
     def collision_checks(self):
-        print("collision running")
         # player lasers 
         if self.player.sprite.bullet:
-            print("player bullet check ", self.player.sprite.bullet)
             for bullet in self.player.sprite.bullet:
                 defender_hit = pygame.sprite.spritecollide(bullet,self.defender_group,True)
-                print("defender hit")
                 if defender_hit:
-                    #for alien in aliens_hit:
-                    #    self.score += alien.value
                     bullet.kill()
                     self.hit_sound.play()
 
@@ -185,7 +180,6 @@ class Game:
             self.defender_group.update(self.running_back_sprite)
             self.defender_group.draw(self.screen)
 
-            print("checking collisions")
             self.collision_checks()
 
 
