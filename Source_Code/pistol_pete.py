@@ -11,7 +11,7 @@ class pistol_pete(entity):
 
         self.bullet = pygame.sprite.Group()
 
-        self.laser_sound = pygame.mixer.Sound('Audio\pistol.wav')
+        self.laser_sound = pygame.mixer.Sound('..\Audio\pistol.wav')
         self.laser_sound.set_volume(0.5)
 
 
