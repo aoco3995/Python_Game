@@ -22,7 +22,6 @@ class running_back(entity):
     def constraint(self):
         if self.rect.left <= 0:
             self.rect.left = 0
-<<<<<<< HEAD
         if self.rect.right >= self.screen_size[0] - 310:
             self.rect.right = self.screen_size[0] - 310
 =======
