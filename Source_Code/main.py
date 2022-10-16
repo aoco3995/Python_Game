@@ -36,7 +36,7 @@ class Game:
         self.bullet_group = pygame.sprite.Group()
 
         #init running back
-        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),4, (self.screen.get_height(),self.screen.get_width()))
+        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]*(5/10), screensize[1]*(9/10)),2, (self.screen.get_height(),self.screen.get_width()))
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
@@ -45,6 +45,7 @@ class Game:
         #self.spawn_defender()
         self.defender_group = pygame.sprite.Group()
         self.last_defender_time = time.time()
+        self.defender_spawn_rate = 5.0
 
         #init music
         self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.wav')
@@ -160,8 +161,9 @@ class Game:
 
             #print(self.running_back_sprite.get_object_rect())
 
-            if (time.time() - self.last_defender_time) > 1:
+            if (time.time() - self.last_defender_time) > self.defender_spawn_rate:
                 game.spawn_defender()
+                self.defender_spawn_rate -=((self.defender_spawn_rate*self.defender_spawn_rate)/100)
             self.defender_group.update(self.running_back_sprite)
             self.defender_group.draw(self.screen)
 
