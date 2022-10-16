@@ -6,3 +6,6 @@ source: Hand drawing by Rachel O'Connor
 
 running_back graphic
 source http://clipart-library.com/clip-art/running-man-silhouette-18.htm
+
+background_football_field.jpg 
+source: http://clipart-library.com/clipart/n971605.htm
