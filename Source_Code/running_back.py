@@ -13,6 +13,10 @@ class running_back(entity):
             self.rect.x += self.velocity
         elif keys[pygame.K_LEFT]:
             self.rect.x -= self.velocity
+        elif keys[pygame.K_UP]:
+            self.rect.y -= self.velocity
+        elif keys[pygame.K_DOWN]:
+            self.rect.y += self.velocity
 
     def constraint(self):
         if self.rect.left <= 0:
