@@ -201,12 +201,47 @@ class Game:
             textpos = text.get_rect(x=0, y=0)
             self.screen.blit(text,textpos)
 
+            # get user input to change state
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_ESCAPE]:
+                self.music_playing = False
+                self.game_music.stop()
+                self.state = "pause"
 
 
 
         elif self.state == "pause":
+
             # play menu music
-            self.menu_music.play(loops=-1)
+            if not self.music_playing:
+                self.menu_music.play(loops=-1)
+                self.music_playing = True
+
+            self.screen.fill((30,30,30,100))
+
+            # display score
+            text = self.menu_font.render(f'Score: {self.current_score}', True, (255,255,255))
+            textpos = text.get_rect(x=0, y=0)
+            self.screen.blit(text,textpos)
+
+            # set options
+            menu_options = ["Paused", "[r] Resume", "[q] Quit"]
+            
+            # display options
+            for i, option in enumerate(menu_options):
+                text = self.menu_font.render(option, True, (255,100,10))
+                textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/3 + (self.menu_font.get_height()*2) * i)
+                self.screen.blit(text,textpos)
+
+            # get user input to change state
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_r]:
+                self.music_playing = False
+                self.menu_music.stop()
+                self.state = "running"
+            elif keys[pygame.K_q]:
+                self.state = "quit"
+
             #display pause menu
             print("pause")
         elif self.state == "gameover":
