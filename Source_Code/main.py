@@ -28,6 +28,7 @@ class Game:
         #init state and score
         self.state = "main_menu"
         self.current_score = 0
+        self.current_down = 1
 
         #init player
         pistol_pete_sprite = pistol_pete("..\\Graphics\\pistol_pete.png",(self.screen.get_width()/2, self.screen.get_height()-20),5,(self.screen.get_height(),self.screen.get_width()), self.screen)
@@ -94,7 +95,8 @@ class Game:
             for defender in self.defender_group:
                 if pygame.sprite.spritecollide(defender,self.running_back,False):
                     self.tackeled_sound.play()
-                    self.state = "gameover"
+                    self.current_down += 1
+                    self.defender_group.remove(self.defender_group)
 
     def run(self):
 
@@ -193,13 +195,26 @@ class Game:
 
             self.collision_checks()
             if self.running_back_sprite.touchdown:
+                self.defender_group.remove(self.defender_group)
                 self.current_score += 7
                 self.running_back_sprite.touchdown = False
+                self.current_down = 1
 
             # display score
             text = self.menu_font.render(f'Score: {self.current_score}', True, (255,255,255))
             textpos = text.get_rect(x=0, y=0)
             self.screen.blit(text,textpos)
+
+
+            if self.current_down > 4:
+                self.state = "gameover"
+
+
+            # display downs (lives)
+            text = self.menu_font.render(f'Down: {self.current_down}', True, (255,255,255))
+            textpos = text.get_rect(right=self.screen.get_width(), y=0)
+            self.screen.blit(text,textpos)
+
 
             # get user input to change state
             keys = pygame.key.get_pressed()
@@ -232,6 +247,7 @@ class Game:
                 text = self.menu_font.render(option, True, (255,100,10))
                 textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/3 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
+
 
             # get user input to change state
             keys = pygame.key.get_pressed()
