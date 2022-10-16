@@ -86,11 +86,6 @@ class Game:
             scores = ["High Scores"]
             scores = scores + (self.scoreDB.viewScores())
 
-            # lazy way to add menu text
-            scores.append("")
-            scores.append("")
-            scores.append("[b] Back to Main Menu")
-
             # display each score on the screen
             for i, score in enumerate(scores):
                 if i > 0:
@@ -102,7 +97,11 @@ class Game:
                 self.screen.blit(text,textpos)
                 if i >= 5 :
                     break
-            
+
+            text = self.menu_font.render("[b] Back to Main Menu", True, (255,100,10))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height() - self.menu_font.get_height())
+            self.screen.blit(text,textpos)
+        
             # get input to go back to menu
             keys = pygame.key.get_pressed()
             if keys[pygame.K_b]:
