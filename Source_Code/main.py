@@ -85,6 +85,12 @@ class Game:
                     bullet.kill()
                     self.hit_sound.play()
 
+        # running back
+        if self.defender_group:
+            for defender in self.defender_group:
+                if pygame.sprite.spritecollide(defender,self.running_back,False):
+                    self.state = "gameover"
+
     def run(self):
 
         # clear screen
