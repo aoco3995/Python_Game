@@ -43,6 +43,12 @@ class Game:
         #music = pygame.mixer.Sound('../Audio/bg_music.wav')
         #music.set_volume(0.05)
         #music.play(loops = -1)
+        #init music
+        #self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.mp3')
+        #self.game_music.set_volume(0.05)
+
+        #self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.mp3')
+        #self.menu_music.set_volume(0.05)
 
         #init font
         pygame.font.init()
@@ -74,23 +80,33 @@ class Game:
         if self.state == "main_menu":
             # display main menu
 
+            # play menu music
+            #self.menu_music.play(loops=-1)
+
+            # display game title
+            text = self.menu_font.render("Run And Gun", True, (255,100,10))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=100)
+            self.screen.blit(text,textpos)
+
             # set options
             menu_options = ["[p] Play Game", "[v] View High Scores", "[q] Quit"]
             
             # display options
             for i, option in enumerate(menu_options):
                 text = self.menu_font.render(option, True, (255,100,10))
-                textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/3 + (self.menu_font.get_height()*2) * i)
+                textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
 
             # get user input to change state
             keys = pygame.key.get_pressed()
             if keys[pygame.K_p]:
+                #self.menu_music.stop()
                 self.state = "running"
             elif keys[pygame.K_v]:
                 self.state = "scores"
             elif keys[pygame.K_q]:
                 self.state = "quit"
+
             print("main menu")
 
 
@@ -127,6 +143,9 @@ class Game:
             print(last_defender_time)
             if (time.time() - last_defender_time) > 1:
                 game.spawn_defender()
+
+            #self.game_music.play(loops = -1)
+
             print("running")
             self.running_back.update()
             self.running_back.draw(self.screen)
@@ -137,9 +156,13 @@ class Game:
             #self.defender1.update(self.running_back_sprite)
             #self.defender1.draw(self.screen)
         elif self.state == "pause":
+            # play menu music
+            self.menu_music.play(loops=-1)
             #display pause menu
             print("pause")
         elif self.state == "gameover":
+            # play game over music
+            #self.gameover_music.play(loops=1)
             #display game over menu
             print("gameover")
         elif self.state == "quit":

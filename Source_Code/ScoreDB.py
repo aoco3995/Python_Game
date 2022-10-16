@@ -19,8 +19,8 @@ class ScoreDB:
         lines = self.file.readlines()
         if len(lines) > 0:
             for line in lines:
-                record = line.split(",")
-                self.scores.append((record[0],int(record[1])))
+                (name,score) = line.split(",")
+                self.scores.append((name,int(score)))
         else:
             self.scores.append(("---",0))
             lines.append("---,0")
@@ -32,21 +32,22 @@ class ScoreDB:
 
     def viewScores(self):
         scores = []
-        for score in self.scores:
-            score_str = f'{score[0]} -- {score[1]}'
+        for (name,score) in self.scores:
+            score_str = f'{name} -- {score}'
             scores.append(score_str)
         return scores
 
     def addScore(self, score):
-        for i, highscores in enumerate(self.scores):
-            if score[1] > highscores[1]:
-                self.scores.insert(i,score)
+        (name,score) = score
+        for i, (_,highscore) in enumerate(self.scores):
+            if score > highscore:
+                self.scores.insert(i,(name,score))
                 break
         
         # recompile lines
         lines = []
-        for score in self.scores:
-            line = ""+score[0]+","+str(score[1])+"\n"
+        for (name,score) in self.scores:
+            line = ""+name+","+str(score)+"\n"
             lines.append(line)
 
         # save to file
@@ -67,7 +68,7 @@ def test():
 
     print(score2.viewScores())
 
-    score2.addScore(("mid",200))
+    score2.addScore(("321",321))
 
     print(score2.viewScores())
 
