@@ -39,16 +39,12 @@ class Game:
 
         self.spawn_defender()
 
-        #init background music
-        #music = pygame.mixer.Sound('../Audio/bg_music.wav')
-        #music.set_volume(0.05)
-        #music.play(loops = -1)
         #init music
-        #self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.mp3')
-        #self.game_music.set_volume(0.05)
+        self.game_music = pygame.mixer.Sound('../Audio/battleThemeA.mp3')
+        self.game_music.set_volume(0.05)
 
-        #self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.mp3')
-        #self.menu_music.set_volume(0.05)
+        self.menu_music = pygame.mixer.Sound('../Audio/the_field_of_dreams.mp3')
+        self.menu_music.set_volume(0.05)
 
         #init font
         pygame.font.init()
@@ -81,7 +77,7 @@ class Game:
             # display main menu
 
             # play menu music
-            #self.menu_music.play(loops=-1)
+            self.menu_music.play(loops=-1)
 
             # display game title
             text = self.menu_font.render("Run And Gun", True, (255,100,10))
@@ -100,7 +96,7 @@ class Game:
             # get user input to change state
             keys = pygame.key.get_pressed()
             if keys[pygame.K_p]:
-                #self.menu_music.stop()
+                self.menu_music.stop()
                 self.state = "running"
             elif keys[pygame.K_v]:
                 self.state = "scores"
@@ -144,7 +140,7 @@ class Game:
             if (time.time() - last_defender_time) > 1:
                 game.spawn_defender()
 
-            #self.game_music.play(loops = -1)
+            self.game_music.play(loops = -1)
 
             print("running")
             self.running_back.update()
