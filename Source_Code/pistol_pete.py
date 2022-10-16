@@ -28,8 +28,8 @@ class pistol_pete(entity):
         if keys[pygame.K_SPACE] and self.ready:
             self.fire_bullet()
             self.ready = False
-            self.bullet_rpm = pygame.time.get_ticks()
-            self.bullet_sound.play() #no sound file yet
+            self.bullet_time = pygame.time.get_ticks()
+            self.bullet_sound.play()
 
     def firerate(self):
         if not self.ready:
@@ -43,8 +43,8 @@ class pistol_pete(entity):
     def constraint(self):
         if self.rect.left <= 0:
             self.rect.left = 0
-        if self.rect.right >= self.screen_size[0]:
-            self.rect.right = self.screen_size[0]
+        if self.rect.right >= self.screen_size[0] - 200:
+            self.rect.right = self.screen_size[0] - 200
 
 
     def update(self):
