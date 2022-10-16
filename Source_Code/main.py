@@ -87,6 +87,7 @@ class Game:
                 if defender_hit:
                     bullet.kill()
                     self.hit_sound.play()
+                    self.current_score += 1
 
         # running back
         if self.defender_group:
@@ -191,6 +192,16 @@ class Game:
             self.defender_group.draw(self.screen)
 
             self.collision_checks()
+            if self.running_back_sprite.touchdown:
+                self.current_score += 7
+                self.running_back_sprite.touchdown = False
+
+            # display score
+            text = self.menu_font.render(f'Score: {self.current_score}', True, (255,255,255))
+            textpos = text.get_rect(x=0, y=0)
+            self.screen.blit(text,textpos)
+
+
 
 
         elif self.state == "pause":

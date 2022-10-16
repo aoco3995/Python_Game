@@ -6,6 +6,7 @@ class running_back(entity):
     def __init__(self, sprite_path, pos, velocity,screen_size):
         super().__init__(sprite_path, pos, velocity)
         self.screen_size = screen_size
+        self.touchdown = False
     
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -26,6 +27,7 @@ class running_back(entity):
             self.rect.right = self.screen_size[0] - 200
         if self.rect.y < (1/10)*self.screen_size[0]:
             self.rect.y = (9/10)*self.screen_size[0]
+            self.touchdown = True
 
     def update(self):
         self.get_input()
