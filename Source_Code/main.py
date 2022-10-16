@@ -1,4 +1,5 @@
 import pygame, sys
+from bullet import bullet
 #from bullet import bullet
 from defender_1 import defender
 from entity import entity
@@ -49,6 +50,9 @@ class Game:
 
         self.music_playing = False
 
+        self.hit_sound = pygame.mixer.Sound('../Audio/hit.wav')
+        self.hit_sound.set_volume(0.3)
+
         #init font
         pygame.font.init()
         if pygame.font:
@@ -69,6 +73,19 @@ class Game:
 
     def spawn_entity(self, entity):
         return
+
+    def collision_checks(self):
+
+        # player lasers 
+        if self.player.sprite.bullet:
+            for bullet in self.player.sprite.bullet:
+				# alien collisions
+                defender_hit = pygame.sprite.spritecollide(bullet,self.defender_group,True)
+                if defender_hit:
+                    #for alien in aliens_hit:
+                    #    self.score += alien.value
+                    bullet.kill()
+                    self.hit_sound.play()
 
     def run(self):
 
@@ -161,6 +178,9 @@ class Game:
                 d.draw(self.screen)
             #self.defender1.update(self.running_back_sprite)
             #self.defender1.draw(self.screen)
+
+            #check for collision
+            self.collision_checks()
         elif self.state == "pause":
             # play menu music
             self.menu_music.play(loops=-1)
