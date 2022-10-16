@@ -9,3 +9,7 @@ class bullet(entity):
 	def destroy(self):
 		if self.rect.y <= -50 or self.rect.y >= self.screen_size[1] + 50: 
 			self.kill()
+
+	def update(self):
+		self.rect.y += self.velocity
+		self.destroy()		
