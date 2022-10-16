@@ -1,4 +1,6 @@
 high,456
 mid,200
 testing,123
+low,1
 ---,0
+bad,-1

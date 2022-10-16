@@ -53,6 +53,10 @@ class Game:
         return
 
     def run(self):
+
+        # clear screen
+        self.screen.fill((30,30,30))
+
         # update state machine
         if self.state == "main_menu":
             #display main menu
@@ -69,9 +73,24 @@ class Game:
             elif keys[pygame.K_q]:
                 self.state = "quit"
             print("main menu")
+
+
         elif self.state == "scores":
-            #display top scores
+            scores = ["High Scores"]
+            scores = scores + (self.scoreDB.viewScores())
+            for i, score in enumerate(scores):
+                if i > 0:
+                    score_str = f'{i}) {score}'
+                    text = self.menu_font.render(score_str, True, (255,100,10))
+                else:
+                    text = self.menu_font.render(score, True, (255,100,10))
+                textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/4 + (self.menu_font.get_height()*2) * i)
+                self.screen.blit(text,textpos)
+                if i >= 5 :
+                    break
             print("scores")
+
+
         elif self.state == "running":
             #play the game
             print("running")
@@ -87,7 +106,6 @@ class Game:
             pygame.quit()
             sys.exit()
 
-        #self.screen.fill((30,30,30))
         pygame.display.flip()
         self.clock.tick(60)
 

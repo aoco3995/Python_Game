@@ -31,7 +31,11 @@ class ScoreDB:
 
 
     def viewScores(self):
-        return self.scores
+        scores = []
+        for score in self.scores:
+            score_str = f'{score[0]} -- {score[1]}'
+            scores.append(score_str)
+        return scores
 
     def addScore(self, score):
         for i, highscores in enumerate(self.scores):
