@@ -20,6 +20,10 @@ class Game:
         self.screen = pygame.display.set_mode(screensize)
         self.clock = pygame.time.Clock()
 
+        #Background
+        self.background_sprite = entity("..\\Graphics\\background_football_field.jpg",(self.screen.get_width()/2,self.screen.get_height()/2),0)
+        self.background = pygame.sprite.GroupSingle(self.background_sprite)
+
         #init state and score
         self.state = "main_menu"
         self.current_score = 0
@@ -151,6 +155,7 @@ class Game:
                 self.music_playing = True
 
             print("running")
+            self.background.draw(self.screen)
             self.running_back.update()
             self.running_back.draw(self.screen)
             self.player.update()
@@ -188,7 +193,7 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game((600,800))
+    game = Game((600,912))
 
     while True:
         game.run()
