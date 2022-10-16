@@ -60,6 +60,9 @@ class Game:
         self.hit_sound = pygame.mixer.Sound('../Audio/hit.wav')
         self.hit_sound.set_volume(0.3)
 
+        self.tackeled_sound = pygame.mixer.Sound('../Audio/dsplpain.wav')
+        self.tackeled_sound.set_volume(0.3)
+
         #init font
         pygame.font.init()
         if pygame.font:
@@ -89,6 +92,7 @@ class Game:
         if self.defender_group:
             for defender in self.defender_group:
                 if pygame.sprite.spritecollide(defender,self.running_back,False):
+                    self.tackeled_sound.play()
                     self.state = "gameover"
 
     def run(self):
