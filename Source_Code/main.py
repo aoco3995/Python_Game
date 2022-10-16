@@ -32,7 +32,7 @@ class Game:
         #self.init_defenders()
 
         #init running back
-        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),5)
+        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]/2, screensize[1]/2),2)
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
