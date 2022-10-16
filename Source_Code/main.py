@@ -213,7 +213,22 @@ class Game:
             # play game over music
             #self.gameover_music.play(loops=1)
             #display game over menu
+        
             print("gameover")
+            text = self.menu_font.render("GAME OVER!", True, (255,100,10))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 + (self.menu_font.get_height()*2))
+            self.screen.blit(text,textpos)
+
+            text = self.menu_font.render("Press Q to Quit", True, (255,100,10))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()*(3/4) + (self.menu_font.get_height()*2))
+            self.screen.blit(text,textpos)
+
+            # get input to go back to menu
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_q]:
+                pygame.quit()
+                self.state = "main_menu"
+
         elif self.state == "quit":
             #quit the game
             print("quit")
