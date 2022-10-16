@@ -22,15 +22,11 @@ class running_back(entity):
     def constraint(self):
         if self.rect.left <= 0:
             self.rect.left = 0
-        if self.rect.right >= self.screen_size[0] - 310:
-            self.rect.right = self.screen_size[0] - 310
-=======
         if self.rect.right >= self.screen_size[0] - 200:
             self.rect.right = self.screen_size[0] - 200
         if self.rect.y < (1/10)*self.screen_size[0]:
             self.rect.y = (9/10)*self.screen_size[0]
->>>>>>> e6f8290a8db731d2c5f9ef3f145e419ed33833ae
-    
+
     def update(self):
         self.get_input()
         self.constraint()
