@@ -59,12 +59,18 @@ class Game:
 
         # update state machine
         if self.state == "main_menu":
-            #display main menu
+            # display main menu
+
+            # set options
             menu_options = ["[p] Play Game", "[v] View High Scores", "[q] Quit"]
+            
+            # display options
             for i, option in enumerate(menu_options):
                 text = self.menu_font.render(option, True, (255,100,10))
                 textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/3 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
+
+            # get user input to change state
             keys = pygame.key.get_pressed()
             if keys[pygame.K_p]:
                 self.state = "running"
@@ -76,8 +82,16 @@ class Game:
 
 
         elif self.state == "scores":
+            # list of scores to display
             scores = ["High Scores"]
             scores = scores + (self.scoreDB.viewScores())
+
+            # lazy way to add menu text
+            scores.append("")
+            scores.append("")
+            scores.append("[b] Back to Main Menu")
+
+            # display each score on the screen
             for i, score in enumerate(scores):
                 if i > 0:
                     score_str = f'{i}) {score}'
@@ -88,6 +102,11 @@ class Game:
                 self.screen.blit(text,textpos)
                 if i >= 5 :
                     break
+            
+            # get input to go back to menu
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_b]:
+                self.state = "main_menu"
             print("scores")
 
 
