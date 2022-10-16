@@ -31,7 +31,11 @@ class ScoreDB:
 
 
     def viewScores(self):
-        return self.scores
+        scores = []
+        for score in self.scores:
+            score_str = f'{score[0]} -- {score[1]}'
+            scores.append(score_str)
+        return scores
 
     def addScore(self, score):
         for i, highscores in enumerate(self.scores):
@@ -54,7 +58,7 @@ class ScoreDB:
 
             
 
-def main():
+def test():
     score1 = ScoreDB("test.txt")
     score2 = ScoreDB("highscores.txt")
 
@@ -70,4 +74,4 @@ def main():
     score1.file.close()
     score2.file.close()
 
-main()
+#test()
