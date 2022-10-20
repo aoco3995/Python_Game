@@ -74,12 +74,6 @@ class Game:
         defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3))
         self.defender_group.add(defend)
 
-    def set_score(self, score):
-        return
-
-    def spawn_entity(self, entity):
-        return
-
     def collision_checks(self):
         # player lasers 
         if self.player.sprite.bullet:
@@ -136,7 +130,6 @@ class Game:
             elif keys[pygame.K_q]:
                 self.state = "quit"
 
-            print("main menu")
 
 
         elif self.state == "scores":
@@ -193,6 +186,8 @@ class Game:
             self.defender_group.draw(self.screen)
 
             self.collision_checks()
+
+
             if self.running_back_sprite.touchdown:
                 self.defender_group.remove(self.defender_group)
                 self.current_score += 7
@@ -258,7 +253,6 @@ class Game:
                 self.state = "quit"
 
             #display pause menu
-            print("pause")
         elif self.state == "gameover":
             # play game over music
             #self.gameover_music.play(loops=1)
