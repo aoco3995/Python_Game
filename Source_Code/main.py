@@ -9,6 +9,7 @@ from ScoreDB import ScoreDB
 import time
 from random import *
 from pistol_pete import pistol_pete
+from field import field
 
 defender1_sprite = []
 defender1 = []
@@ -21,9 +22,9 @@ class Game:
         self.screen = pygame.display.set_mode(screensize)
         self.clock = pygame.time.Clock()
 
-        #Background
-        self.background_sprite = entity("..\\Graphics\\custom_football_field_background_HD.png",(self.screen.get_width()/2,self.screen.get_height()/2),0)
-        self.background = pygame.sprite.GroupSingle(self.background_sprite)
+        #Field
+        self.field_sprite = field("..\\Graphics\\custom_football_field_background_HD.png",(0,self.screen.get_height()),0)
+        self.field = pygame.sprite.GroupSingle(self.field_sprite)
 
         #init state and score
         self.state = "main_menu"
@@ -169,7 +170,8 @@ class Game:
 
             #print("running")
 
-            self.background.draw(self.screen)
+            self.field.update()
+            self.field.draw(self.screen)
 
             self.running_back.update()
             self.running_back.draw(self.screen)
