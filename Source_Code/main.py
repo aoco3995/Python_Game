@@ -22,7 +22,7 @@ class Game:
         self.clock = pygame.time.Clock()
 
         #Background
-        self.background_sprite = entity("..\\Graphics\\background_football_field.jpg",(self.screen.get_width()/2,self.screen.get_height()/2),0)
+        self.background_sprite = entity("..\\Graphics\\custom_football_field_background_HD.png",(self.screen.get_width()/2,self.screen.get_height()/2),0)
         self.background = pygame.sprite.GroupSingle(self.background_sprite)
 
         #init state and score
@@ -294,7 +294,7 @@ class Game:
 if __name__ == '__main__':
    
    while True:
-        game = Game((600,912))
+        game = Game((1920,1080))
         new_game = False
         while new_game == False:
             new_game = game.run()
