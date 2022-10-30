@@ -57,6 +57,11 @@ class Game:
 
         #init score database
         self.scoreDB = ScoreDB()
+        self.initial = ['A','A','A']
+        self.initial_index = 0
+        self.score_saved = False
+        self.blink = False
+        self.blink_timer = 0
 
         #self.spawn_defender()
         self.defender_group = pygame.sprite.Group()
@@ -82,6 +87,7 @@ class Game:
         pygame.font.init()
         if pygame.font:
             self.menu_font = pygame.font.Font(None, 70)
+            self.gameover_font = pygame.font.Font(None, 120)
 
     def spawn_defender(self):
         self.last_defender_time = time.time()
@@ -303,21 +309,73 @@ class Game:
             #display game over menu
 
             self.gameover_bg.draw(self.screen)
-        
-            print("gameover")
-            text = self.menu_font.render("GAME OVER!", True, (255,100,10))
+
+            # blur background
+            blur_bg = pygame.Surface((1000,1000))
+            blur_bg.set_alpha(196)
+            blur_bg.fill((0,0,0))
+            self.screen.blit(blur_bg, (self.screen.get_width()/2 - blur_bg.get_width()/2, self.screen.get_height()/2 - blur_bg.get_height()/2 + 100))
+
+            # prompt for initials
+            text = self.menu_font.render("Enter your initals to save your score using the arrow keys: ", True, (255,100,10))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 - (self.menu_font.get_height()*4))
+            self.screen.blit(text,textpos)
+
+            # increase blink
+            if self.blink_timer % 6 == 0:
+                self.blink = not self.blink
+            self.blink_timer += 1
+
+            # print current initials
+            for i, letter in enumerate(self.initial):
+                if self.blink and self.initial_index == i:
+                    text = self.menu_font.render("_", True, (255,255,255))
+                else:
+                    text = self.menu_font.render(letter, True, (255,255,255))
+
+                textpos = text.get_rect(x=self.screen.get_width() / 2 - self.menu_font.get_height() * (3-i), y=self.screen.get_height()/2 + (self.menu_font.get_height()))
+                self.screen.blit(text,textpos)
+
+            # print score
+            text = self.menu_font.render(str(self.current_score), True, (255,255,255))
+            textpos = text.get_rect(x=self.screen.get_width() / 2 + self.menu_font.get_height() * 3, y=self.screen.get_height()/2 + (self.menu_font.get_height()))
+            self.screen.blit(text,textpos)
+
+            # print gameover
+            text = self.gameover_font.render("GAME OVER!", True, (255,100,10))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 - (self.menu_font.get_height()*6))
             self.screen.blit(text,textpos)
 
+            # print menu option
             text = self.menu_font.render("Press [Esc] to go back to Main Menu", True, (255,100,10))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()*(3/4) + (self.menu_font.get_height()*2))
             self.screen.blit(text,textpos)
 
             # get input to go back to menu
+            # and handle inital inputs
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 self.game_music.stop()
+                name = ""
+                for letter in self.initial:
+                    name += letter
+                self.scoreDB.addScore((name, self.current_score))
                 return True
+            elif keys[pygame.K_UP]:
+                if self.initial_index < 3 and ord(self.initial[self.initial_index]) > ord("A"):
+                    self.initial[self.initial_index] = chr(ord(self.initial[self.initial_index])-1)
+                time.sleep(0.1)
+            elif keys[pygame.K_DOWN]:
+                if self.initial_index < 3 and ord(self.initial[self.initial_index]) < ord("Z"):
+                    self.initial[self.initial_index] = chr(ord(self.initial[self.initial_index])+1)
+                time.sleep(0.1)
+            elif keys[pygame.K_RIGHT]:
+                self.initial_index += 1
+                time.sleep(0.1)
+            elif keys[pygame.K_LEFT]:
+                if self.initial_index > 0:
+                    self.initial_index -= 1
+                time.sleep(0.1)
 
         elif self.state == "quit":
             #quit the game
