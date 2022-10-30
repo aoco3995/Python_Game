@@ -1,3 +1,4 @@
+from turtle import screensize
 import pygame, sys
 from bullet import bullet
 #from bullet import bullet
@@ -9,6 +10,7 @@ from ScoreDB import ScoreDB
 import time
 from random import *
 from pistol_pete import pistol_pete
+from field import field
 
 defender1_sprite = []
 defender1 = []
@@ -21,9 +23,15 @@ class Game:
         self.screen = pygame.display.set_mode(screensize)
         self.clock = pygame.time.Clock()
 
-        #Background
-        self.background_sprite = entity("..\\Graphics\\background_football_field.jpg",(self.screen.get_width()/2,self.screen.get_height()/2),0)
-        self.background = pygame.sprite.GroupSingle(self.background_sprite)
+        #Field
+        self.field_sprite = field("..\\Graphics\\custom_football_field_background_HD.png",(0,self.screen.get_height()),0)
+        self.field = pygame.sprite.GroupSingle(self.field_sprite)
+
+        self.menu_bg_sprite = entity("..\\Graphics\\boone_pickens.png",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.menu_bg = pygame.sprite.GroupSingle(self.menu_bg_sprite)
+
+        self.gameover_bg_sprite = entity("..\\Graphics\\gameover.jpg",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.gameover_bg = pygame.sprite.GroupSingle(self.gameover_bg_sprite)
 
         self.menu_bg_sprite = entity("..\\Graphics\\boone_pickens.png",(self.screen.get_width()/2, self.screen.get_height()/2),0)
         self.menu_bg = pygame.sprite.GroupSingle(self.menu_bg_sprite)
@@ -197,9 +205,10 @@ class Game:
 
             #print("running")
 
-            self.background.draw(self.screen)
+            self.field.update(self.running_back_sprite, (self.screen.get_height(),self.screen.get_width()))
+            self.field.draw(self.screen)
 
-            self.running_back.update()
+            self.running_back.update(self.field_sprite)
             self.running_back.draw(self.screen)
 
             self.player.update()
@@ -255,7 +264,7 @@ class Game:
                 self.music_playing = True
 
             # draw everything that was on the screen
-            self.background.draw(self.screen)
+            self.field.draw(self.screen)
             self.running_back.draw(self.screen)
             self.defender_group.draw(self.screen)
 
@@ -389,7 +398,7 @@ class Game:
 if __name__ == '__main__':
    
    while True:
-        game = Game((1920,1000))
+        game = Game((1920,1080))
         new_game = False
         while new_game == False:
             new_game = game.run()
