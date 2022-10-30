@@ -26,6 +26,18 @@ class Game:
         self.field_sprite = field("..\\Graphics\\custom_football_field_background_HD.png",(0,self.screen.get_height()),0)
         self.field = pygame.sprite.GroupSingle(self.field_sprite)
 
+        self.menu_bg_sprite = entity("..\\Graphics\\boone_pickens.png",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.menu_bg = pygame.sprite.GroupSingle(self.menu_bg_sprite)
+
+        self.gameover_bg_sprite = entity("..\\Graphics\\gameover.jpg",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.gameover_bg = pygame.sprite.GroupSingle(self.gameover_bg_sprite)
+
+        self.menu_bg_sprite = entity("..\\Graphics\\boone_pickens.png",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.menu_bg = pygame.sprite.GroupSingle(self.menu_bg_sprite)
+
+        self.gameover_bg_sprite = entity("..\\Graphics\\gameover.jpg",(self.screen.get_width()/2, self.screen.get_height()/2),0)
+        self.gameover_bg = pygame.sprite.GroupSingle(self.gameover_bg_sprite)
+
         #init state and score
         self.state = "main_menu"
         self.current_score = 0
@@ -68,7 +80,7 @@ class Game:
         #init font
         pygame.font.init()
         if pygame.font:
-            self.menu_font = pygame.font.Font(None, 50)
+            self.menu_font = pygame.font.Font(None, 70)
 
     def spawn_defender(self):
         self.last_defender_time = time.time()
@@ -101,13 +113,21 @@ class Game:
         if self.state == "main_menu":
             # display main menu
 
+            self.menu_bg.draw(self.screen)
+
+            # blur background
+            button_bg = pygame.Surface((600,800))
+            button_bg.set_alpha(196)
+            button_bg.fill((0,0,0))
+            self.screen.blit(button_bg, (self.screen.get_width()/2 - button_bg.get_width()/2, self.screen.get_height()/2 - button_bg.get_height()/2 - 100))
+
             # play menu music
             if not self.music_playing:
                 self.menu_music.play(loops=-1)
                 self.music_playing = True
 
             # display game title
-            text = self.menu_font.render("Run And Gun", True, (255,100,10))
+            text = self.menu_font.render("Run And Gun", True, (255,255,255))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=100)
             self.screen.blit(text,textpos)
 
@@ -116,7 +136,7 @@ class Game:
             
             # display options
             for i, option in enumerate(menu_options):
-                text = self.menu_font.render(option, True, (255,100,10))
+                text = self.menu_font.render(option, True, (255,255,255))
                 textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
 
@@ -138,19 +158,27 @@ class Game:
             scores = ["High Scores"]
             scores = scores + (self.scoreDB.viewScores())
 
+            self.menu_bg.draw(self.screen)
+
+            # blur background
+            button_bg = pygame.Surface((600,1000))
+            button_bg.set_alpha(196)
+            button_bg.fill((0,0,0))
+            self.screen.blit(button_bg, (self.screen.get_width()/2 - button_bg.get_width()/2, self.screen.get_height()/5))
+
             # display each score on the screen
             for i, score in enumerate(scores):
                 if i > 0:
                     score_str = f'{i}) {score}'
-                    text = self.menu_font.render(score_str, True, (255,100,10))
+                    text = self.menu_font.render(score_str, True, (255,255,255))
                 else:
-                    text = self.menu_font.render(score, True, (255,100,10))
+                    text = self.menu_font.render(score, True, (255,255,255))
                 textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/4 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
                 if i >= 5 :
                     break
 
-            text = self.menu_font.render("[b] Back to Main Menu", True, (255,100,10))
+            text = self.menu_font.render("[b] Back to Main Menu", True, (255,255,255))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height() - self.menu_font.get_height())
             self.screen.blit(text,textpos)
         
@@ -228,11 +256,25 @@ class Game:
                 self.menu_music.play(loops=-1)
                 self.music_playing = True
 
-            self.screen.fill((30,30,30,100))
+            # draw everything that was on the screen
+            self.field.draw(self.screen)
+            self.running_back.draw(self.screen)
+            self.defender_group.draw(self.screen)
+
+            # blur screen
+            button_bg = pygame.Surface((self.screen.get_width(),self.screen.get_height()))
+            button_bg.set_alpha(196)
+            button_bg.fill((0,0,0))
+            self.screen.blit(button_bg, (0,0))
 
             # display score
             text = self.menu_font.render(f'Score: {self.current_score}', True, (255,255,255))
             textpos = text.get_rect(x=0, y=0)
+            self.screen.blit(text,textpos)
+
+            # display downs (lives)
+            text = self.menu_font.render(f'Down: {self.current_down}', True, (255,255,255))
+            textpos = text.get_rect(right=self.screen.get_width(), y=0)
             self.screen.blit(text,textpos)
 
             # set options
@@ -243,7 +285,6 @@ class Game:
                 text = self.menu_font.render(option, True, (255,100,10))
                 textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/3 + (self.menu_font.get_height()*2) * i)
                 self.screen.blit(text,textpos)
-
 
             # get user input to change state
             keys = pygame.key.get_pressed()
@@ -259,19 +300,21 @@ class Game:
             # play game over music
             #self.gameover_music.play(loops=1)
             #display game over menu
+
+            self.gameover_bg.draw(self.screen)
         
             print("gameover")
             text = self.menu_font.render("GAME OVER!", True, (255,100,10))
-            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 + (self.menu_font.get_height()*2))
+            textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()/2 - (self.menu_font.get_height()*6))
             self.screen.blit(text,textpos)
 
-            text = self.menu_font.render("Press B to go back to Main Menu", True, (255,100,10))
+            text = self.menu_font.render("Press [Esc] to go back to Main Menu", True, (255,100,10))
             textpos = text.get_rect(centerx=self.screen.get_width() / 2, y=self.screen.get_height()*(3/4) + (self.menu_font.get_height()*2))
             self.screen.blit(text,textpos)
 
             # get input to go back to menu
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_b]:
+            if keys[pygame.K_ESCAPE]:
                 self.game_music.stop()
                 return True
 
