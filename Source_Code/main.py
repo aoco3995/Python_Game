@@ -32,7 +32,7 @@ class Game:
         self.gameover_bg = pygame.sprite.GroupSingle(self.gameover_bg_sprite)
 
         #init state and score
-        self.state = "gameover"
+        self.state = "main_menu"
         self.current_score = 0
         self.current_down = 1
 
