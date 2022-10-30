@@ -199,7 +199,7 @@ class Game:
 
             #print("running")
 
-            self.field.update(self.running_back_sprite, screensize)
+            self.field.update(self.running_back_sprite, (self.screen.get_height(),self.screen.get_width()))
             self.field.draw(self.screen)
 
             self.running_back.update(self.field_sprite)

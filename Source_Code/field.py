@@ -9,5 +9,5 @@ class field(entity):
 
     def update(self,running_back,screen_size):
         
-        if running_back.get_object_rect().y < 1080/2:
+        if running_back.get_object_rect().y < screen_size[0]/2:
             self.rect.y +=1
