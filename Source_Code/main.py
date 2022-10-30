@@ -1,3 +1,4 @@
+from turtle import screensize
 import pygame, sys
 from bullet import bullet
 #from bullet import bullet
@@ -198,10 +199,10 @@ class Game:
 
             #print("running")
 
-            self.field.update()
+            self.field.update(self.running_back_sprite, screensize)
             self.field.draw(self.screen)
 
-            self.running_back.update()
+            self.running_back.update(self.field_sprite)
             self.running_back.draw(self.screen)
 
             self.player.update()

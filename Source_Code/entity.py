@@ -7,9 +7,17 @@ class entity(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(center = pos)
 		self.pos = pos
 		self.velocity = velocity
+		self.x_on_field = 0
+		self.y_on_field = 0
 
 	def update(self,direction):
 		self.rect.x += direction
 
 	def get_object_rect(self):
 		return self.rect
+
+	def move_with_field(self, field,x,y):
+		self.x_on_field += x
+		self.y_on_field += y
+		self.rect.x = field.get_object_rect().centerx + self.x_on_field
+		self.rect.y = field.get_object_rect().bottom -self.y_on_field
