@@ -10,4 +10,6 @@ class field(entity):
     def update(self,running_back,screen_size):
         
         if running_back.get_object_rect().y < screen_size[0]/2:
-            self.rect.y +=1
+            self.rect.y += running_back.get_velocity()
+        elif running_back.get_object_rect().y > screen_size[0]*(6/10):
+            self.rect.y -= running_back.get_velocity()

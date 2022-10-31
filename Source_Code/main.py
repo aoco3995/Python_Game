@@ -45,7 +45,7 @@ class Game:
         self.current_down = 1
 
         #init player
-        pistol_pete_sprite = pistol_pete("..\\Graphics\\pistol_pete.png",(self.screen.get_width()/2, self.screen.get_height()-20),60,(self.screen.get_width(),self.screen.get_height()), self.screen)
+        pistol_pete_sprite = pistol_pete("..\\Graphics\\pistol_pete.png",(self.screen.get_width()/2, self.screen.get_height()-20),0,(self.screen.get_width(),self.screen.get_height()), self.screen)
         self.player = pygame.sprite.GroupSingle(pistol_pete_sprite)
 
         #init bullets
