@@ -18,13 +18,20 @@ class running_back(entity):
 
         if keys[pygame.K_d]:
             self.move_x = self.velocity
+            if self.rect.x >= self.screen_size[0]:
+                self.move_x = -self.velocity 
+
         if keys[pygame.K_a]:
             self.move_x = -self.velocity
+            if self.rect.x <= 0:
+                self.move_x = self.velocity
+           
         if keys[pygame.K_w]:
             self.move_y = self.velocity
         if keys[pygame.K_s]:
             self.move_y = -self.velocity
         
+
         self.move_with_field(field,self.move_x,self.move_y)
   
 
