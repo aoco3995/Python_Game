@@ -45,9 +45,18 @@ class running_back(entity):
         #     pass
         #     # self.rect.y = (9/10)*self.screen_size[0]
         #     # self.touchdown = True
+    
+    def touchdown_check(self, field):
+        if self.y_on_field > (field.get_object_rect().h*(9/10)):
+            self.reset_field(field)
+            self.y_on_field = 5
+            self.touchdown = True
+
+
+    def reset_field(self,field):
+        field.rect.y = self.screen_size[1]-field.get_object_rect().h 
 
     def update(self,field):
         self.get_input(field)
         self.constraint()
-        #self.recharge()
-        #self.lasers.update()
+        self.touchdown_check(field)
