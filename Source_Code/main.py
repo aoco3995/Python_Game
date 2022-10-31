@@ -91,7 +91,7 @@ class Game:
 
     def spawn_defender(self):
         self.last_defender_time = time.time()
-        defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3),(self.screen.get_width(),self.screen.get_height()),self.field_sprite)
+        defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(2,5),(self.screen.get_width(),self.screen.get_height()),self.field_sprite,self.running_back_sprite)
         self.defender_group.add(defend)
 
     def collision_checks(self):

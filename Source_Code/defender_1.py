@@ -5,12 +5,12 @@ from random import *
 
 class defender(entity):
 
-    def __init__(self,sprite_path,pos,velocity,screen_size,field):
+    def __init__(self,sprite_path,pos,velocity,screen_size,field,running_back):
         super().__init__(sprite_path, pos, velocity)
         self.x_momentum = 0
         self.y_momentum = 0
-        self.x_on_field = 0 #randint(1,field.get_object_rect().right)
-        self.y_on_field = field.get_object_rect().h
+        self.x_on_field = randint(-field.get_object_rect().w/2, field.get_object_rect().w/2)
+        self.y_on_field = running_back.get_pos_on_field()["y"]+ screen_size[1]*(7/10)
 
     def update(self, running_back, field):
 
