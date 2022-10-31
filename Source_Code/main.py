@@ -193,7 +193,6 @@ class Game:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_b]:
                 self.state = "main_menu"
-            print("scores")
 
 
         elif self.state == "running":
@@ -232,8 +231,8 @@ class Game:
                 self.current_down = 1
 
             # display score
-            text = self.menu_font.render(f'Score: {self.current_score}', True, (255,255,255))
-            textpos = text.get_rect(x=0, y=0)
+            text = self.menu_font.render(f'Score: {self.current_score}', True, (255,100,10))
+            textpos = text.get_rect(x=300, y=0)
             self.screen.blit(text,textpos)
 
 
@@ -242,8 +241,8 @@ class Game:
 
 
             # display downs (lives)
-            text = self.menu_font.render(f'Down: {self.current_down}', True, (255,255,255))
-            textpos = text.get_rect(right=self.screen.get_width(), y=0)
+            text = self.menu_font.render(f'Down: {self.current_down}', True, (255,100,10))
+            textpos = text.get_rect(right=self.screen.get_width()-300, y=0)
             self.screen.blit(text,textpos)
 
 
