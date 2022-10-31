@@ -3,6 +3,7 @@ from entity import entity
 from bullet import bullet
 
 class pistol_pete(entity):
+    
     def __init__(self, sprite_path, pos, velocity, screen_size, screen):
         super().__init__(sprite_path, pos, velocity)
         self.bullet_time = 0
@@ -10,12 +11,20 @@ class pistol_pete(entity):
         self.screen_size = screen_size
         self.ready = True
         self.screen = screen
+
+        self.power_up = False
+        self.hits_till = 0
+        self.power_up_time = 0
+        self.power_up_time_start = 0
+        self.power_up_rpm = 150
         
 
         self.bullet = pygame.sprite.Group()
 
         self.bullet_sound = pygame.mixer.Sound('../Audio/pistol.wav')
         self.bullet_sound.set_volume(0.5)
+
+
 
 
     def get_input(self):
@@ -28,16 +37,41 @@ class pistol_pete(entity):
         #     self.rect.x -= self.velocity
 
         if pygame.mouse.get_pressed()[0] and self.ready:
+            self.bullet_time = pygame.time.get_ticks()
             self.fire_bullet()
             self.ready = False
-            self.bullet_time = pygame.time.get_ticks()
             self.bullet_sound.play()
 
+        if pygame.mouse.get_pressed()[2]:
+            if self.hits_till >= 3:
+                self.power_up = True
+                self.power_up_time = 3000
+                self.power_up_time_start = pygame.time.get_ticks()
+
     def firerate(self):
-        if not self.ready:
+
+        if not self.power_up:
+            if not self.ready:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.bullet_time >= self.bullet_rpm:
+                    self.ready = True
+                    
+        else:
+            
             current_time = pygame.time.get_ticks()
-            if current_time - self.bullet_time >= self.bullet_rpm:
-                self.ready = True
+            print(current_time - self.power_up_time_start)
+            if current_time - self.power_up_time_start <= self.power_up_time:
+                if current_time - self.bullet_time >= self.power_up_rpm:
+                    print(current_time - self.bullet_time)
+                    self.ready = True
+
+            else: 
+                self.ready = False
+                self.power_up = False
+                self.hits_till = 0
+
+
+                
 
     def fire_bullet(self):
         self.bullet.add(bullet('..\\Graphics\\bullet.png',self.rect.center,-8,self.screen_size))
@@ -49,9 +83,10 @@ class pistol_pete(entity):
             self.rect.right = self.screen_size[0] - 310
 
 
-    def update(self):
+    def update(self, hit):
         self.get_input()
         self.constraint()
         self.firerate()
         self.bullet.update()
         self.bullet.draw(self.screen)
+        self.hits_till += hit

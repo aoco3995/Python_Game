@@ -16,9 +16,12 @@ defender1_sprite = []
 defender1 = []
 class Game:
 
+    hit_still = 0
 
     def __init__(self,screensize):
         #init pygame and screen
+
+
         pygame.init()
         self.screen = pygame.display.set_mode(screensize)
         self.clock = pygame.time.Clock()
@@ -94,6 +97,8 @@ class Game:
         defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3))
         self.defender_group.add(defend)
 
+
+    
     def collision_checks(self):
         # player lasers 
         if self.player.sprite.bullet:
@@ -103,6 +108,7 @@ class Game:
                     bullet.kill()
                     self.hit_sound.play()
                     self.current_score += 1
+                    self.hit_still = 1
 
         # running back
         if self.defender_group:
@@ -210,7 +216,8 @@ class Game:
             self.running_back.update(self.field_sprite)
             self.running_back.draw(self.screen)
 
-            self.player.update()
+            self.player.update(self.hit_still)
+            self.hit_still = 0
             self.player.draw(self.screen)
 
             #print(self.running_back_sprite.get_object_rect())
