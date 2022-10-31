@@ -5,7 +5,6 @@ class bullet(entity):
 	def __init__(self,sprite_path,pos,velocity,screen_size):
 		super().__init__(sprite_path,pos,velocity)
 		self.screen_size = screen_size
-		self.velocity
 
 	def destroy(self):
 		if self.rect.y <= -50 or self.rect.y >= self.screen_size[1] + 50: 

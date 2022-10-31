@@ -12,11 +12,15 @@ class pistol_pete(entity):
         self.ready = True
         self.screen = screen
 
+
+        #power up vars
         self.power_up = False
         self.hits_till = 0
         self.power_up_time = 0
         self.power_up_time_start = 0
         self.power_up_rpm = 150
+        self.bullet_speed = -20
+        ####
         
 
         self.bullet = pygame.sprite.Group()
@@ -64,17 +68,19 @@ class pistol_pete(entity):
                 if current_time - self.bullet_time >= self.power_up_rpm:
                     print(current_time - self.bullet_time)
                     self.ready = True
+                    self.bullet_speed = -20
 
             else: 
                 self.ready = False
                 self.power_up = False
                 self.hits_till = 0
+                self.bullet_speed = -8
 
 
                 
 
     def fire_bullet(self):
-        self.bullet.add(bullet('..\\Graphics\\bullet.png',self.rect.center,-8,self.screen_size))
+        self.bullet.add(bullet('..\\Graphics\\bullet.png',self.rect.center,self.bullet_speed,self.screen_size))
 
     def constraint(self):
         if self.rect.left <= 0:

@@ -24,3 +24,6 @@ class entity(pygame.sprite.Sprite):
 
 	def get_velocity(self):
 		return self.velocity
+
+	def get_pos_on_field(self):
+		return {"x": self.x_on_field, "y": self.y_on_field}

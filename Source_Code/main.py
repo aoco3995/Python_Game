@@ -94,7 +94,7 @@ class Game:
 
     def spawn_defender(self):
         self.last_defender_time = time.time()
-        defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(1,3))
+        defend = defender("../Graphics/defender_1_small.png", (randint(1,self.screen.get_width()), 1), randint(2,5),(self.screen.get_width(),self.screen.get_height()),self.field_sprite,self.running_back_sprite)
         self.defender_group.add(defend)
 
 
@@ -225,7 +225,7 @@ class Game:
             if (time.time() - self.last_defender_time) > self.defender_spawn_rate:
                 game.spawn_defender()
                 self.defender_spawn_rate -=((self.defender_spawn_rate*self.defender_spawn_rate)/100)
-            self.defender_group.update(self.running_back_sprite)
+            self.defender_group.update(self.running_back_sprite,self.field_sprite)
             self.defender_group.draw(self.screen)
 
             self.collision_checks()
