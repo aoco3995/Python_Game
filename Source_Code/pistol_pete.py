@@ -21,10 +21,11 @@ class pistol_pete(entity):
     def get_input(self):
         keys = pygame.key.get_pressed()
         self.mouse_crt_x , self.mouse_crt_y = pygame.mouse.get_pos()
-        if self.mouse_crt_x >= self.rect.x + 20:#keys[pygame.K_d]:
-            self.rect.x += self.velocity
-        elif self.mouse_crt_x <= self.rect.x - 20:#keys[pygame.K_a]:
-            self.rect.x -= self.velocity
+        self.rect.x = self.mouse_crt_x
+        # if self.mouse_crt_x >= self.rect.x + 20:#keys[pygame.K_d]:
+        #     self.rect.x += self.velocity
+        # elif self.mouse_crt_x <= self.rect.x - 20:#keys[pygame.K_a]:
+        #     self.rect.x -= self.velocity
 
         if pygame.mouse.get_pressed()[0] and self.ready:
             self.fire_bullet()
