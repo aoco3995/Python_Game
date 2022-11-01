@@ -27,3 +27,6 @@ class entity(pygame.sprite.Sprite):
 
 	def get_pos_on_field(self):
 		return {"x": self.x_on_field, "y": self.y_on_field}
+
+	def get_abs_pos(self, field):
+		return((field.get_object_rect().centerx + self.x_on_field), (field.get_object_rect().bottom -self.y_on_field))
