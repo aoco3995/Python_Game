@@ -11,6 +11,7 @@ import time
 from random import *
 from pistol_pete import pistol_pete
 from field import field
+from ARB import ARB
 
 defender1_sprite = []
 defender1 = []
@@ -57,6 +58,9 @@ class Game:
         #init running back
         self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]*(5/10), screensize[1]*(9/10)),4, (self.screen.get_width(),self.screen.get_height()))
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
+
+        self.running_back_sprite_animated = ARB("..\\Graphics\\running_back_animated.png", (screensize[0]*(5/10), screensize[1]*(9/10)),4, (self.screen.get_width(),self.screen.get_height()))
+        self.running_back_animated = pygame.sprite.GroupSingle(self.running_back_sprite_animated)
 
         #init score database
         self.scoreDB = ScoreDB()
@@ -214,7 +218,8 @@ class Game:
             self.field.draw(self.screen)
 
             self.running_back.update(self.field_sprite)
-            self.running_back.draw(self.screen)
+            #self.running_back.draw(self.screen)
+            self.running_back_animated.update(self.field_sprite,self.screen,self.running_back_sprite)
 
             self.player.update(self.hit_still)
             self.hit_still = 0
