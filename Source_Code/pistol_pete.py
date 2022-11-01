@@ -85,8 +85,8 @@ class pistol_pete(entity):
     def constraint(self):
         if self.rect.left <= 0:
             self.rect.left = 0
-        if self.rect.right >= self.screen_size[0] - 310:
-            self.rect.right = self.screen_size[0] - 310
+        if self.rect.right >= self.screen_size[0]:
+            self.rect.right = self.screen_size[0]
 
 
     def update(self, hit):
