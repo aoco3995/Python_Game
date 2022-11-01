@@ -337,7 +337,7 @@ class Game:
                 td_blink_color = (255,255,255)
                 
                 # blink everything that was on the screen
-                self.running_back.draw(self.screen)
+                self.running_back_sprite_animated.draw(self.field_sprite,self.screen,self.running_back_sprite)
                 self.defender_group.draw(self.screen)
 
             # blur screen
@@ -380,7 +380,7 @@ class Game:
 
             if self.tdblink:                
                 # blink everything that was on the screen
-                self.running_back.draw(self.screen)
+                self.running_back_sprite_animated.draw(self.field_sprite,self.screen,self.running_back_sprite)
                 self.defender_group.draw(self.screen)
 
             #old down
@@ -388,7 +388,6 @@ class Game:
 
             # move running back while blinking
             if self.tdblink_timer > 25:
-                self.running_back.update(self.field_sprite)
                 text = self.gameover_font.render(f'DOWN: {self.current_down}', True, (255,100,10))
 
             # display downs (lives)
@@ -420,7 +419,7 @@ class Game:
 
             # draw everything that was on the screen
             self.field.draw(self.screen)
-            self.running_back.draw(self.screen)
+            self.running_back_sprite_animated.draw(self.field_sprite,self.screen,self.running_back_sprite)
             self.defender_group.draw(self.screen)
 
             # blur screen

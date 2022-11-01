@@ -50,3 +50,6 @@ class ARB(entity):
 	def update(self, field, screen, running_back):
 		self.get_input()
 		self.animation(field, screen, running_back)
+
+	def draw(self, field, screen, running_back):
+		screen.blit(self.image, running_back.get_abs_pos(field), ((112.5*self.animation_step),(112.5*self.animation_action),(112.5),(112.5)))
