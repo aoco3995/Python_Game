@@ -112,7 +112,7 @@ class Game:
                 if defender_hit:
                     bullet.kill()
                     self.hit_sound.play()
-                    self.current_score += 1
+                    self.current_score -= 1
                     self.hit_still = 1
 
         # running back
