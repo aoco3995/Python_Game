@@ -60,3 +60,4 @@ class running_back(entity):
         self.get_input(field)
         self.constraint()
         self.touchdown_check(field)
+        self.image.blit(self.image, (200,200), (0,0,112,112))

@@ -68,13 +68,13 @@ class pistol_pete(entity):
                 if current_time - self.bullet_time >= self.power_up_rpm:
                     print(current_time - self.bullet_time)
                     self.ready = True
-                    self.bullet_speed = -20
+                    self.bullet_speed = -40
 
             else: 
                 self.ready = False
                 self.power_up = False
                 self.hits_till = 0
-                self.bullet_speed = -8
+                self.bullet_speed = -20
 
 
                 

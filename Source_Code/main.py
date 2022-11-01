@@ -55,7 +55,7 @@ class Game:
         self.bullet_group = pygame.sprite.Group()
 
         #init running back
-        self.running_back_sprite = running_back("..\\Graphics\\running_back.png", (screensize[0]*(5/10), screensize[1]*(9/10)),4, (self.screen.get_width(),self.screen.get_height()))
+        self.running_back_sprite = running_back("..\\Graphics\\running_back_animated.png", (screensize[0]*(5/10), screensize[1]*(9/10)),4, (self.screen.get_width(),self.screen.get_height()))
         self.running_back = pygame.sprite.GroupSingle(self.running_back_sprite)
 
         #init score database
