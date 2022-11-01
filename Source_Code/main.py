@@ -64,7 +64,9 @@ class Game:
         self.initial_index = 0
         self.score_saved = False
         self.blink = False
+        self.tdblink = False
         self.blink_timer = 0
+        self.tdblink_timer = 0
 
         #self.spawn_defender()
         self.defender_group = pygame.sprite.Group()
@@ -85,6 +87,9 @@ class Game:
 
         self.tackeled_sound = pygame.mixer.Sound('../Audio/dsplpain.wav')
         self.tackeled_sound.set_volume(0.3)
+        
+        self.td_sound = pygame.mixer.Sound('../Audio/touchdown.wav')
+        self.td_sound.set_volume(0.5)
 
         #init font
         pygame.font.init()
@@ -117,10 +122,32 @@ class Game:
                     self.tackeled_sound.play()
                     self.current_down += 1
                     self.defender_group.remove(self.defender_group)
+                    # set back 10 yards when downed
+                    self.running_back_sprite.y_on_field -= 200
+                    # set state to pause running back and blink for a bit
+                    self.tdblink_timer = 0
+                    self.state = "down"
+
+#     #####                          #                            
+    #     #   ##   #    # ######    #        ####   ####  #####  
+    #        #  #  ##  ## #         #       #    # #    # #    # 
+    #  #### #    # # ## # #####     #       #    # #    # #    # 
+    #     # ###### #    # #         #       #    # #    # #####  
+    #     # #    # #    # #         #       #    # #    # #      
+     #####  #    # #    # ######    #######  ####   ####  #      
+                                                                 
 
     def run(self):
         # clear screen
         self.screen.fill((30,30,30))
+
+        #     #                    #     #                      
+        ##   ##   ##   # #    #    ##   ## ###### #    # #    # 
+        # # # #  #  #  # ##   #    # # # # #      ##   # #    # 
+        #  #  # #    # # # #  #    #  #  # #####  # #  # #    # 
+        #     # ###### # #  # #    #     # #      #  # # #    # 
+        #     # #    # # #   ##    #     # #      #   ## #    # 
+        #     # #    # # #    #    #     # ###### #    #  ####  
 
         # update state machine
         if self.state == "main_menu":
@@ -164,6 +191,14 @@ class Game:
             elif keys[pygame.K_q]:
                 self.state = "quit"
 
+  #####                                        #     #                      
+ #     #  ####   ####  #####  ######  ####     ##   ## ###### #    # #    # 
+ #       #    # #    # #    # #      #         # # # # #      ##   # #    # 
+  #####  #      #    # #    # #####   ####     #  #  # #####  # #  # #    # 
+       # #      #    # #####  #           #    #     # #      #  # # #    # 
+ #     # #    # #    # #   #  #      #    #    #     # #      #   ## #    # 
+  #####   ####   ####  #    # ######  ####     #     # ###### #    #  ####  
+                                                                            
 
 
         elif self.state == "scores":
@@ -200,6 +235,13 @@ class Game:
             if keys[pygame.K_b]:
                 self.state = "main_menu"
 
+ ######                                       
+ #     # #    # #    # #    # # #    #  ####  
+ #     # #    # ##   # ##   # # ##   # #    # 
+ ######  #    # # #  # # #  # # # #  # #      
+ #   #   #    # #  # # #  # # # #  # # #  ### 
+ #    #  #    # #   ## #   ## # #   ## #    # 
+ #     #  ####  #    # #    # # #    #  ####  
 
         elif self.state == "running":
             #play the game
@@ -231,11 +273,13 @@ class Game:
             self.collision_checks()
 
 
+            # check for touchdown
             if self.running_back_sprite.touchdown:
-                self.defender_group.remove(self.defender_group)
+                self.state = "touchdown"
                 self.current_score += 7
-                self.running_back_sprite.touchdown = False
-                self.current_down = 1
+                # play touchdown music in here to prevent repeats
+                self.tdblink_timer = 0
+                self.td_sound.play()
 
             # display score
             text = self.menu_font.render(f'Score: {self.current_score}', True, (255,100,10))
@@ -260,7 +304,107 @@ class Game:
                 self.game_music.stop()
                 self.state = "pause"
 
+ #######                                                         
+    #     ####  #    #  ####  #    # #####   ####  #    # #    # 
+    #    #    # #    # #    # #    # #    # #    # #    # ##   # 
+    #    #    # #    # #      ###### #    # #    # #    # # #  # 
+    #    #    # #    # #      #    # #    # #    # # ## # #  # # 
+    #    #    # #    # #    # #    # #    # #    # ##  ## #   ## 
+    #     ####   ####   ####  #    # #####   ####  #    # #    # 
+                                                                 
 
+        elif self.state == "touchdown":
+
+        
+            self.field.draw(self.screen)
+
+            # reset running back state
+            self.running_back_sprite.touchdown = False
+            self.current_down = 1
+
+            # increase blink
+            if self.tdblink_timer % 4 == 0:
+                self.tdblink = not self.tdblink
+            self.tdblink_timer += 1
+
+            td_blink_color = (255,100,10)
+            if self.tdblink:
+                td_blink_color = (255,255,255)
+                
+                # blink everything that was on the screen
+                self.running_back.draw(self.screen)
+                self.defender_group.draw(self.screen)
+
+            # blur screen
+            button_bg = pygame.Surface((self.screen.get_width(),self.screen.get_height()))
+            button_bg.set_alpha(196)
+            button_bg.fill((0,0,0))
+            self.screen.blit(button_bg, (0,0))
+
+            # display Touchdown Text
+            text = self.gameover_font.render("T O U C H D O W N", True, td_blink_color)
+            textpos = text.get_rect(centerx=self.screen.get_width()/2, centery=self.screen.get_height()/2)
+            self.screen.blit(text,textpos)
+
+            # go back to running state
+            if self.tdblink_timer > 100:
+                # remove defenders
+                self.defender_group.remove(self.defender_group)
+
+                self.state = "running"
+
+ ######                       
+ #     #  ####  #    # #    # 
+ #     # #    # #    # ##   # 
+ #     # #    # #    # # #  # 
+ #     # #    # # ## # #  # # 
+ #     # #    # ##  ## #   ## 
+ ######   ####  #    # #    # 
+                              
+
+        elif self.state == "down":
+
+        
+            self.field.draw(self.screen)
+
+            # increase blink
+            if self.tdblink_timer % 4 == 0:
+                self.tdblink = not self.tdblink
+            self.tdblink_timer += 1
+
+
+            if self.tdblink:                
+                # blink everything that was on the screen
+                self.running_back.draw(self.screen)
+                self.defender_group.draw(self.screen)
+
+            #old down
+            text = self.gameover_font.render(f'DOWN: {self.current_down-1}', True, (255,100,10))
+
+            # move running back while blinking
+            if self.tdblink_timer > 25:
+                self.running_back.update(self.field_sprite)
+                text = self.gameover_font.render(f'DOWN: {self.current_down}', True, (255,100,10))
+
+            # display downs (lives)
+            textpos = text.get_rect(centerx=self.screen.get_width()/2, centery=self.screen.get_height()/2)
+            self.screen.blit(text,textpos)
+
+            # go back to running state
+            if self.tdblink_timer > 50:
+                # remove defenders
+                self.defender_group.remove(self.defender_group)
+
+                self.state = "running"
+
+ ######                              
+ #     #   ##   #    #  ####  ###### 
+ #     #  #  #  #    # #      #      
+ ######  #    # #    #  ####  #####  
+ #       ###### #    #      # #      
+ #       #    # #    # #    # #      
+ #       #    #  ####   ####  ###### 
+                                     
 
         elif self.state == "pause":
 
@@ -308,7 +452,16 @@ class Game:
             elif keys[pygame.K_q]:
                 self.state = "quit"
 
-            #display pause menu
+
+  #####                                                   
+ #     #   ##   #    # ######  ####  #    # ###### #####  
+ #        #  #  ##  ## #      #    # #    # #      #    # 
+ #  #### #    # # ## # #####  #    # #    # #####  #    # 
+ #     # ###### #    # #      #    # #    # #      #####  
+ #     # #    # #    # #      #    #  #  #  #      #   #  
+  #####  #    # #    # ######  ####    ##   ###### #    # 
+                     
+
         elif self.state == "gameover":
             # play game over music
             #self.gameover_music.play(loops=1)
@@ -383,6 +536,15 @@ class Game:
                     self.initial_index -= 1
                 time.sleep(0.1)
 
+
+  #####                 
+ #     # #    # # ##### 
+ #     # #    # #   #   
+ #     # #    # #   #   
+ #   # # #    # #   #   
+ #    #  #    # #   #   
+  #### #  ####  #   #   
+                        
         elif self.state == "quit":
             #quit the game
             print("quit")
@@ -399,6 +561,15 @@ class Game:
                 sys.exit()
         
         return False
+        
+ #######                   #####                          #                            
+ #       #    # #####     #     #   ##   #    # ######    #        ####   ####  #####  
+ #       ##   # #    #    #        #  #  ##  ## #         #       #    # #    # #    # 
+ #####   # #  # #    #    #  #### #    # # ## # #####     #       #    # #    # #    # 
+ #       #  # # #    #    #     # ###### #    # #         #       #    # #    # #####  
+ #       #   ## #    #    #     # #    # #    # #         #       #    # #    # #      
+ ####### #    # #####      #####  #    # #    # ######    #######  ####   ####  #      
+
 
 
 if __name__ == '__main__':
