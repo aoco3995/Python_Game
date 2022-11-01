@@ -13,3 +13,9 @@ To run the game from the source code:
     -open a terminal in the cloned directory
     -type "cd ./Source_Code"
     -type "python ./main.py"
+
+To package the game into an excecutable from source code,
+    -clone the repo into a directory on your computer
+    -open a terminal in the cloned directory
+    -type "pyinstaller .\Source_Code\main.py --onefile --noconsole --name RunAndGun
+    -the excecutable will be in .\dist directory
