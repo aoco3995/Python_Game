@@ -143,7 +143,7 @@ class Game:
 
     def run(self):
         # clear screen
-        self.screen.fill((30,30,30))
+        self.screen.fill((36,114,54))
 
         #     #                    #     #                      
         ##   ##   ##   # #    #    ##   ## ###### #    # #    # 
