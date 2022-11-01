@@ -12,5 +12,5 @@ class field(entity):
         if running_back.get_object_rect().y < screen_size[0]/2:
             self.rect.y += running_back.get_velocity()
         elif running_back.get_object_rect().y > screen_size[0]*(6/10):
-            if self.rect.y > screen_size[0] - self.rect.h:
-                self.rect.y -= running_back.get_velocity()
+            #if self.rect.y > screen_size[0] - self.rect.h:
+            self.rect.y -= running_back.get_velocity()
