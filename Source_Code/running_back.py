@@ -9,6 +9,12 @@ class running_back(entity):
         self.touchdown = False
         self.move_x = 0
         self.move_y = 0
+
+        #animation vars
+        self.animation_step = 0
+        self.animation_action = 0 #temp
+        self.last_update = pygame.time.get_ticks()
+        self.animation_cooldown = 60
     
     def get_input(self,field):
 
@@ -56,8 +62,20 @@ class running_back(entity):
     def reset_field(self,field):
         field.rect.y = self.screen_size[1]-field.get_object_rect().h 
 
+    def animation(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_update >= self.animation_cooldown:
+            self.image.blit(self.image, (50,50), ((112*self.animation_step),(0),(112+112*self.animation_step),(112)))
+            self.image.fill(0,0,0)
+            if self.animation_step < 7:
+                self.animation_step += 1
+            else:
+                self.animation_step = 0
+            self.last_update = pygame.time.get_ticks()
+
     def update(self,field):
         self.get_input(field)
         self.constraint()
         self.touchdown_check(field)
-        self.image.blit(self.image, (200,200), (0,0,112,112))
+        self.animation()
+        
