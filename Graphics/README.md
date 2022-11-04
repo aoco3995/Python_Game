@@ -18,3 +18,6 @@ source: https://www.pinterest.com/pin/744642119607703061/
 
 gameover background
 source: https://www.peakpx.com/en/hd-wallpaper-desktop-kvfkx
+
+running_back_animated
+source: Hand drawn by Joseph Stolfa
