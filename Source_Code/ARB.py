@@ -38,7 +38,8 @@ class ARB(entity):
 
 	def animation(self,field, screen, running_back):
 		current_time = pygame.time.get_ticks()
-		screen.blit(self.image, running_back.get_abs_pos(field), ((112.5*self.animation_step),(112.5*self.animation_action),(112.5),(112.5)))
+		rbx, rby = running_back.get_abs_pos(field)
+		screen.blit(self.image, (rbx- running_back.rect.width, rby- running_back.rect.height), ((112.5*self.animation_step),(112.5*self.animation_action),(112.5),(112.5)))
 		if current_time - self.last_update >= self.animation_cooldown:
 			
 			if self.animation_step < 7:
