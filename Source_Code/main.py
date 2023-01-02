@@ -260,7 +260,7 @@ class Game:
             self.field.draw(self.screen)
 
             self.running_back.update(self.field_sprite)
-            self.running_back.draw(self.screen)
+            #self.running_back.draw(self.screen)
             self.running_back_animated.update(self.field_sprite,self.screen,self.running_back_sprite)
 
             self.player.update(self.hit_still)
